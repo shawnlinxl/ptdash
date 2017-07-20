@@ -1,0 +1,16 @@
+Package: ptdash
+Type: Package
+Title: Personal Trader Dashboard
+Version: 0.1.0
+Author: Xiaoliang Lin
+Maintainer: Xiaoliang Lin <xiaoliang.lin@columbia.edu>
+Description: Analysis Personal Stock Returns
+Imports:
+  tidyverse,
+  quantmod,
+  zoo,
+  settings
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
