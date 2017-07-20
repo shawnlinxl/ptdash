@@ -7,7 +7,8 @@
 set_pkg_options(...)
 }
 \arguments{
-\item{...}{Option names to retrieve option values or \code{[key]=[value]} pairs to set options.}
+\item{...}{Option names to retrieve option values or
+\code{[key]=[value]} pairs to set options.}
 }
 \description{
 Set or get options for my package
@@ -16,7 +17,8 @@ Set or get options for my package
 
 The following options are supported
 \itemize{
- \item{\code{wd}}{(\code{string};1) The working directory of all data. }
+ \item{\code{wd}}{(\code{string}) The working directory of all data. }
+ \item{\code{quandlapi}}{(\code{string}) Your API Key for Quandl. }
 }
 }
 

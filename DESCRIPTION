@@ -7,7 +7,7 @@ Maintainer: Xiaoliang Lin <xiaoliang.lin@columbia.edu>
 Description: Analysis Personal Stock Returns
 Imports:
   tidyverse,
-  quantmod,
+  Quandl,
   zoo,
   settings
 License: GPL-3
