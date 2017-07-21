@@ -4,7 +4,11 @@
 \alias{update_price_info}
 \title{Create a daily return series.}
 \usage{
-update_price_info()
+update_price_info(dir_log_file = NULL)
+}
+\arguments{
+\item{dir_log_file}{directory of the log file. If not provided, look for
+log file at default location.}
 }
 \description{
 Create a daily return series based on the return on the historical date

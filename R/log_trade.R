@@ -18,19 +18,19 @@ function(ticker, price, trade_quantity, trade_type, trade_date = Sys.Date()) {
 
   ## Exceptions handling
   if (!is.double(price)) {
-    stop("Price should be a floating number.")
+    stop("ERROR: Price should be a floating number.")
   }
 
   if (!is.double(trade_quantity)) {
-    stop("trade_quantity must be an integer.")
+    stop("ERROR: trade_quantity must be an integer.")
   }
 
   if (!(trade_type %in% c("Buy", "Sell"))) {
-    stop("trade_type must be `Buy` or `Sell`")
+    stop("ERROR: trade_type must be `Buy` or `Sell`")
   }
 
   if (!grepl("^\\d{4}-\\d{2}-\\d{2}$", trade_date)) {
-    stop("trade_date must be in YYYY-MM-DD format.")
+    stop("ERROR: trade_date must be in YYYY-MM-DD format.")
   }
 
   trade_date <- zoo::as.Date(trade_date)
