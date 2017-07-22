@@ -1,10 +1,8 @@
 calc_return_series <-
-  function(dir_log_file = NULL, return_level = c("ticker", "fund")) {
+  function(return_level = c("ticker", "fund"), benchmark = "_SPXT") {
   #' Use stock holdings and price data to find daily return on fund using
   #' only invested asset. Result is produced for indivisual tickers.
   #'
-  #' @param dir_log_file directory of the log file. If not provided, look for
-  #'   log file at default location.
   #' @param return_level
   #'   * ticker: return info for each ticker in a long format data.frame
   #'   * fund: fund return info
@@ -14,15 +12,9 @@ calc_return_series <-
   #' @export
 
   ## Load log file
-  if (is.null(dir_log_file)) {
-    log_file <-
-      read.csv(paste0(PKG_OPTIONS()$wd, "trade_log.csv"),
-               colClasses = c("Date", "character", "double", "integer", "character"))
-  } else {
-    log_file <-
-      read.csv(dir_log_file,
-               colClasses = c("Date", "character", "double", "integer", "character"))
-  }
+  log_file <-
+    read.csv(paste0(PKG_OPTIONS()$wd, "trade_log.csv"),
+             colClasses = c("Date", "character", "double", "integer", "character"))
 
   pos_change <- log_file
   ## remap Buy and Sell to integer values for calculation
@@ -42,8 +34,9 @@ calc_return_series <-
   ticker.list <- unique(pos_change$Ticker)
   result <- list()
 
+  dir_price_data <- paste0(PKG_OPTIONS()$wd, "price_data/")
+
   for (ticker in ticker.list) {
-    dir_price_data <- paste0(PKG_OPTIONS()$wd, "price_data/")
     dir_price_file <- paste0(dir_price_data, "price_",ticker, ".csv")
 
     ## Read the price data
@@ -98,6 +91,25 @@ calc_return_series <-
       ungroup() %>%
       as.data.frame() %>%
       mutate(Total.Return = cumprod(Return + 1) - 1)
+
+    if (!is.na(benchmark)) {
+      dir_price_file <- paste0(dir_price_data, "price_", benchmark, ".csv")
+      result <-
+        result %>%
+        select(Date, Return, Total.Return) %>%
+        mutate(Strategy = "Fund")
+      price_data <-
+        read.csv(dir_price_file, colClasses = c("Date", rep("double", 5))) %>%
+        select(Date, Close) %>%
+        mutate(Return = Close/lag(Close) - 1) %>%
+        mutate(Return = ifelse(is.na(Return), 0, Return)) %>%
+        mutate(Total.Return = cumprod(Return + 1) - 1) %>%
+        select(Date, Return, Total.Return) %>%
+        mutate(Strategy = "SPTR")
+
+      result <- rbind(result, price_data)
+
+    }
 
     return(result)
 

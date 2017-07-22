@@ -5,12 +5,9 @@
 \title{Use stock holdings and price data to find daily return on fund using
 only invested asset. Result is produced for indivisual tickers.}
 \usage{
-calc_return_series(dir_log_file = NULL, return_level = c("ticker", "fund"))
+calc_return_series(return_level = c("ticker", "fund"), benchmark = "_SPXT")
 }
 \arguments{
-\item{dir_log_file}{directory of the log file. If not provided, look for
-log file at default location.}
-
 \item{return_level}{* ticker: return info for each ticker in a long format data.frame
 * fund: fund return info}
 }

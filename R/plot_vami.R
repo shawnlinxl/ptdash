@@ -1,4 +1,4 @@
-plot_vami <- function() {
+plot_vami <- function(benchmark = TRUE) {
   #' Plot cumulative return of the fund
   #'
   #' @import ggplot2
@@ -7,13 +7,24 @@ plot_vami <- function() {
   #' @export
 
   fund.return <-
-    calc_return_series(return_level = "fund") %>%
-    select(Date, Total.Return)
+    calc_return_series("fund") %>%
+    select(Date, Total.Return, Strategy)
 
-  fund.return <- rbind(data.frame(Date = as.Date(fund.return$Date[1] - 1), Total.Return = 0), fund.return)
+  if (!benchmark) {filter(fund.return, Strategy = "Fund")}
+
+  strategy.list <- unique(fund.return$Strategy)
+  result <- list()
+  for (strategy in strategy.list) {
+    result[[strategy]] <-
+      filter(fund.return, Strategy == strategy) %>%
+      rbind(data.frame(Date = as.Date(.$Date[1] - 1), Total.Return = 0, Strategy = strategy), .)
+  }
+
+  fund.return <- Reduce(rbind, result)
+
 
   g <-
-    ggplot(fund.return, aes(x = Date, y = Total.Return)) +
+    ggplot(fund.return, aes(x = Date, y = Total.Return, group = Strategy, color = Strategy)) +
     geom_line(size = 1) +
     scale_y_continuous(labels = scales::percent)
 

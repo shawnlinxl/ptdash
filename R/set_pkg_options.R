@@ -1,7 +1,8 @@
 # Variable, global to package's namespace.
 # This function is not exported to user space and does not need to be documented.
-PKG_OPTIONS <- settings::options_manager(wd = "C:/",
-                                         quandlapi = "17zLYKUTzzt6whHxFZEF")
+PKG_OPTIONS <- settings::options_manager(wd = "C:/ptdash/",
+                                         quandlapi = "17zLYKUTzzt6whHxFZEF",
+                                         inception.date = zoo::as.Date("2017-06-16"))
 
 # User function that gets exported:
 set_pkg_options <- function(...) {

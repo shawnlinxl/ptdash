@@ -4,7 +4,7 @@
 \alias{plot_vami}
 \title{Plot cumulative return of the fund}
 \usage{
-plot_vami()
+plot_vami(benchmark = TRUE)
 }
 \description{
 Plot cumulative return of the fund
