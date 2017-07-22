@@ -12,7 +12,9 @@ Imports:
   Quandl,
   zoo,
   settings,
-  scales
+  scales,
+  xts,
+  PerformanceAnalytics
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

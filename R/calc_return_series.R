@@ -105,7 +105,7 @@ calc_return_series <-
         mutate(Return = ifelse(is.na(Return), 0, Return)) %>%
         mutate(Total.Return = cumprod(Return + 1) - 1) %>%
         select(Date, Return, Total.Return) %>%
-        mutate(Strategy = "SPTR")
+        mutate(Strategy = "Benchmark")
 
       result <- rbind(result, price_data)
 

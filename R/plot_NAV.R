@@ -7,7 +7,7 @@ plot_NAV <- function() {
   #' @export
 
   fund.return <-
-    calc_return_series(return_level = "fund") %>%
+    calc_return_series("fund", benchmark = NA) %>%
     select(Date, Fund.NAV)
 
   g <-
