@@ -6,10 +6,13 @@ Author: Xiaoliang Lin
 Maintainer: Xiaoliang Lin <xiaoliang.lin@columbia.edu>
 Description: Analysis Personal Stock Returns
 Imports:
-  tidyverse,
+  dplyr,
+  lubridate,
+  ggplot2,
   Quandl,
   zoo,
-  settings
+  settings,
+  scales
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
