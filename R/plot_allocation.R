@@ -1,4 +1,4 @@
-plot_allocation <- function() {
+plot_allocation <- function(Report.Date = NULL) {
   #' Plot Asset Allocation by Ticker
   #'
   #' @import ggplot2
@@ -6,22 +6,25 @@ plot_allocation <- function() {
   #'
   #' @export
 
+  if (is.null(Report.Date)) {
+    Report.Date <- Sys.Date()
+  }
+
   NAV.data <-
     calc_return_series() %>%
+    filter(Date <= Report.Date) %>%
     filter(Date == max(Date)) %>%
     mutate(Allocation = NAV/sum(NAV)) %>%
     arrange(desc(Allocation))
 
-  g <-
-    ggplot(NAV.data, aes(x=factor(1), y = Allocation, fill = Ticker)) +
-    geom_bar(stat = "identity") +
-    ylab("") +
-    xlab("") +
-    labs(fill="") +
-    coord_polar("y") +
-    geom_text(
-      aes(y = Allocation + c(0, cumsum(Allocation)[-length(Allocation)]),
-          label = scales::percent(Allocation)))
+  g <- plot_ly(
+    NAV.data,
+    labels = ~Ticker, values = ~NAV, type="pie",
+    textposition = 'inside',
+    textinfo = 'label+percent',
+    insidetextfont = list(color = '#FFFFFF'),
+    hoverinfo = 'text',
+    text = ~paste('$', NAV))
 
   return(g)
 

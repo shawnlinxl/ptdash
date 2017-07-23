@@ -4,7 +4,13 @@
 \alias{plot_vami}
 \title{Plot cumulative return of the fund}
 \usage{
-plot_vami(benchmark = TRUE)
+plot_vami(data.return, benchmark = TRUE)
+}
+\arguments{
+\item{data.return}{Daily or monthly return series}
+
+\item{benchmark}{If TRUE, plot the benchmark return during the same period
+on the same graph.}
 }
 \description{
 Plot cumulative return of the fund

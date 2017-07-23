@@ -1,13 +1,17 @@
 calc_summary <-
-function(summary_type = c("quick", "CAPM", "Drawdown")) {
+function(returns.data, summary_type = c("quick", "CAPM", "Drawdown")) {
   #' calculate performance summary
+  #'
+  #' @param return.data dataframe of return series with Date, Return and
+  #'   Strategy type.
+  #' @param summary_type type of summary
   #'
   #' @import dplyr
   #' @import PerformanceAnalytics
+  #' @importFrom scales percent
   #'
   #' @export
 
-  returns.data <- calc_return_series("fund")
   returns.fund <-
     filter(returns.data, Strategy == "Fund") %>%
     select(Date, Return) %>%
@@ -31,7 +35,8 @@ function(summary_type = c("quick", "CAPM", "Drawdown")) {
     beta <- CAPM.beta(fund.return, bm.return)
     sharpe <- SharpeRatio.annualized(fund.return)
     correlation <- cor(fund.return, bm.return)
-    stats <- data.frame(Fund = c(ret, std, max.dd, alpha, beta, sharpe, correlation))
+    stats <- data.frame(Fund = c(percent(c(ret, std, max.dd, alpha)),
+                                         round(c(beta, sharpe, correlation),2)))
 
     ## benchmark stats
     ret <- Return.annualized(bm.return)
@@ -41,7 +46,8 @@ function(summary_type = c("quick", "CAPM", "Drawdown")) {
     beta <- NA
     sharpe <- SharpeRatio.annualized(bm.return)
     correlation <- cor(fund.return, bm.return)
-    stats$Benchmark <- c(ret, std, max.dd, alpha, beta, sharpe, correlation)
+    stats$Benchmark <- c(percent(c(ret, std, max.dd, alpha)),
+                         round(c(beta, sharpe, correlation),2))
 
     row.names(stats) = c("Ann.Return", "Ann.Std", "Max Drawdown", "Alpha", "Beta",
                          "Sharpe", "Correlation")

@@ -4,7 +4,13 @@
 \alias{calc_summary}
 \title{calculate performance summary}
 \usage{
-calc_summary(summary_type = c("quick", "CAPM", "Drawdown"))
+calc_summary(returns.data, summary_type = c("quick", "CAPM", "Drawdown"))
+}
+\arguments{
+\item{summary_type}{type of summary}
+
+\item{return.data}{dataframe of return series with Date, Return and
+Strategy type.}
 }
 \description{
 calculate performance summary

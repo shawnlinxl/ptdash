@@ -6,7 +6,12 @@ calc_return_series <-
   #' @param return_level
   #'   * ticker: return info for each ticker in a long format data.frame
   #'   * fund: fund return info
+  #' @md
   #'
+  #' @param benchmark Ticker of the benchmark. If NA, then benchmark
+  #'   return will not be produced for the period.
+  #'
+  #' @import magrittr
   #' @import dplyr
   #'
   #' @export
@@ -68,9 +73,8 @@ calc_return_series <-
             (Total*Adj.Close) / Cost - 1,
             (Total*Adj.Close) / ((Total - Change) * lag(Adj.Close) + Cost) - 1)
       ) %>%
-      mutate(Total.Return = cumprod(Return + 1) - 1) %>%
       mutate(NAV = Total*Adj.Close) %>%
-      select(Date, Return, Total.Return, NAV) %>%
+      select(Date, Return, NAV) %>%
       mutate(Ticker = ticker)
   }
 
@@ -89,22 +93,20 @@ calc_return_series <-
       group_by(Date) %>%
       summarize(Fund.NAV = sum(NAV), Return = sum(Return*NAV)/Fund.NAV) %>%
       ungroup() %>%
-      as.data.frame() %>%
-      mutate(Total.Return = cumprod(Return + 1) - 1)
+      as.data.frame()
 
     if (!is.na(benchmark)) {
       dir_price_file <- paste0(dir_price_data, "price_", benchmark, ".csv")
       result <-
         result %>%
-        select(Date, Return, Total.Return) %>%
+        select(Date, Return) %>%
         mutate(Strategy = "Fund")
       price_data <-
         read.csv(dir_price_file, colClasses = c("Date", rep("double", 5))) %>%
         select(Date, Close) %>%
         mutate(Return = Close/lag(Close) - 1) %>%
         mutate(Return = ifelse(is.na(Return), 0, Return)) %>%
-        mutate(Total.Return = cumprod(Return + 1) - 1) %>%
-        select(Date, Return, Total.Return) %>%
+        select(Date, Return) %>%
         mutate(Strategy = "Benchmark")
 
       result <- rbind(result, price_data)

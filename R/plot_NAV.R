@@ -1,17 +1,12 @@
-plot_NAV <- function() {
+plot_NAV <- function(fund.NAV) {
   #' Plot net asset value of the fund
   #'
   #' @import ggplot2
-  #' @import dplyr
   #'
   #' @export
 
-  fund.return <-
-    calc_return_series("fund", benchmark = NA) %>%
-    select(Date, Fund.NAV)
-
   g <-
-    ggplot(fund.return, aes(x = Date, y = Fund.NAV)) +
+    ggplot(fund.NAV, aes(x = Date, y = Fund.NAV)) +
     geom_line(size = 1) +
     scale_y_continuous(labels = scales::dollar)
 

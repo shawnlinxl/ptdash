@@ -4,7 +4,7 @@
 \alias{plot_allocation}
 \title{Plot Asset Allocation by Ticker}
 \usage{
-plot_allocation()
+plot_allocation(Report.Date = NULL)
 }
 \description{
 Plot Asset Allocation by Ticker

@@ -1,5 +1,9 @@
-plot_vami <- function(benchmark = TRUE) {
+plot_vami <- function(data.return, benchmark = TRUE) {
   #' Plot cumulative return of the fund
+  #'
+  #' @param data.return Daily or monthly return series
+  #' @param benchmark If TRUE, plot the benchmark return during the same period
+  #'   on the same graph.
   #'
   #' @import ggplot2
   #' @import dplyr
@@ -7,8 +11,10 @@ plot_vami <- function(benchmark = TRUE) {
   #' @export
 
   fund.return <-
-    calc_return_series("fund") %>%
-    select(Date, Total.Return, Strategy)
+    data.return %>%
+    calc_total_return("fund")
+
+
 
   if (!benchmark) {filter(fund.return, Strategy = "Fund")}
 

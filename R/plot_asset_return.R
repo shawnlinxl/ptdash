@@ -1,4 +1,4 @@
-plot_asset_return <- function(ticker.list = NULL) {
+plot_asset_return <- function(data.return, ticker.list = NULL) {
   #' Plot each individual's total return since inception
   #'
   #' @param ticker.list tickers to plot, if not ALL
@@ -8,7 +8,8 @@ plot_asset_return <- function(ticker.list = NULL) {
   #'
   #' @export
 
-  fund.return <- calc_return_series()
+  fund.return <- calc_total_return(data.return, "ticker")
+
   if (is.null(ticker.list)) {
     ticker.list <- unique(fund.return$Ticker)
   }

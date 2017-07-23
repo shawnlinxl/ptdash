@@ -4,7 +4,7 @@
 \alias{plot_NAV}
 \title{Plot net asset value of the fund}
 \usage{
-plot_NAV()
+plot_NAV(fund.NAV)
 }
 \description{
 Plot net asset value of the fund

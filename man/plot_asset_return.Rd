@@ -4,7 +4,7 @@
 \alias{plot_asset_return}
 \title{Plot each individual's total return since inception}
 \usage{
-plot_asset_return(ticker.list = NULL)
+plot_asset_return(data.return, ticker.list = NULL)
 }
 \arguments{
 \item{ticker.list}{tickers to plot, if not ALL}

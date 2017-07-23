@@ -8,8 +8,15 @@ only invested asset. Result is produced for indivisual tickers.}
 calc_return_series(return_level = c("ticker", "fund"), benchmark = "_SPXT")
 }
 \arguments{
-\item{return_level}{* ticker: return info for each ticker in a long format data.frame
-* fund: fund return info}
+\item{return_level}{\itemize{
+\item ticker: return info for each ticker in a long format data.frame
+\itemize{
+\item fund: fund return info
+}
+}}
+
+\item{benchmark}{Ticker of the benchmark. If NA, then benchmark
+return will not be produced for the period.}
 }
 \description{
 Use stock holdings and price data to find daily return on fund using
