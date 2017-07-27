@@ -51,8 +51,8 @@ function(returns.data, summary_type = c("quick", "CAPM", "Drawdown")) {
     stats$Benchmark <- c(percent(c(ret, std, max.dd, win.rate)),
                          round(c(alpha, beta, sharpe, correlation),2))
 
-    row.names(stats) = c("Ann.Return", "Ann.Std", "Max Drawdown", "Alpha", "Beta",
-                         "Sharpe", "Correlation", "Win Rate")
+    row.names(stats) = c("Ann.Return", "Ann.Std", "Max Drawdown", "Win Rate",
+                         "Alpha", "Beta", "Sharpe", "Correlation")
 
     return(stats)
   } else if (summary_type == "CAPM") {
