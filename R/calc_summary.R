@@ -36,8 +36,8 @@ function(returns.data, summary_type = c("quick", "CAPM", "Drawdown")) {
     sharpe <- SharpeRatio.annualized(fund.return)
     correlation <- cor(fund.return, bm.return)
     win.rate <- mean(fund.return>0)
-    stats <- data.frame(Fund = c(percent(c(ret, std, max.dd, win.rate)),
-                                         round(c(alpha, beta, sharpe, correlation),2)))
+    stats <- data.frame(Fund = c(percent(c(ret, std, max.dd, win.rate, alpha)),
+                                         round(c(beta, sharpe, correlation),2)))
 
     ## benchmark stats
     ret <- Return.annualized(bm.return)
