@@ -35,8 +35,9 @@ function(returns.data, summary_type = c("quick", "CAPM", "Drawdown")) {
     beta <- CAPM.beta(fund.return, bm.return)
     sharpe <- SharpeRatio.annualized(fund.return)
     correlation <- cor(fund.return, bm.return)
-    stats <- data.frame(Fund = c(percent(c(ret, std, max.dd, alpha)),
-                                         round(c(beta, sharpe, correlation),2)))
+    win.rate <- mean(fund.return>0)
+    stats <- data.frame(Fund = c(percent(c(ret, std, max.dd, win.rate)),
+                                         round(c(alpha, beta, sharpe, correlation),2)))
 
     ## benchmark stats
     ret <- Return.annualized(bm.return)
@@ -46,11 +47,12 @@ function(returns.data, summary_type = c("quick", "CAPM", "Drawdown")) {
     beta <- NA
     sharpe <- SharpeRatio.annualized(bm.return)
     correlation <- cor(fund.return, bm.return)
-    stats$Benchmark <- c(percent(c(ret, std, max.dd, alpha)),
-                         round(c(beta, sharpe, correlation),2))
+    win.rate <- mean(bm.return>0)
+    stats$Benchmark <- c(percent(c(ret, std, max.dd, win.rate)),
+                         round(c(alpha, beta, sharpe, correlation),2))
 
     row.names(stats) = c("Ann.Return", "Ann.Std", "Max Drawdown", "Alpha", "Beta",
-                         "Sharpe", "Correlation")
+                         "Sharpe", "Correlation", "Win Rate")
 
     return(stats)
   } else if (summary_type == "CAPM") {
