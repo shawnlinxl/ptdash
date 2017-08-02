@@ -27,7 +27,8 @@ plot_asset_return <- function(data.return, ticker.list = NULL) {
   g <-
     ggplot(fund.return,
            aes(x = Date, y = Total.Return, group = Ticker, color = Ticker)) +
-    geom_line(size = 1)
+    geom_line(size = 1) +
+    scale_y_continuous(labels = scales::percent)
 
   return(g)
 
