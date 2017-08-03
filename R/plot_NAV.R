@@ -5,6 +5,14 @@ plot_NAV <- function(fund.NAV) {
   #'
   #' @export
 
+  fund.NAV <-
+    fund.NAV %>%
+    group_by(Ticker) %>%
+    padr::pad %>%
+    ungroup %>%
+    as.data.frame %>%
+    tidyr::fill(Return,NAV,Ticker)
+
   g <-
     ggplot(fund.NAV, aes(x = Date, y = Fund.NAV)) +
     geom_line(size = 1) +
