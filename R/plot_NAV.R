@@ -7,11 +7,8 @@ plot_NAV <- function(fund.NAV) {
 
   fund.NAV <-
     fund.NAV %>%
-    group_by(Ticker) %>%
-    padr::pad %>%
-    ungroup %>%
-    as.data.frame %>%
-    tidyr::fill(Return,NAV,Ticker)
+    padr::pad() %>%
+    tidyr::fill(Fund.NAV)
 
   g <-
     ggplot(fund.NAV, aes(x = Date, y = Fund.NAV)) +
