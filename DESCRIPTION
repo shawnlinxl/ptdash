@@ -19,7 +19,9 @@ Imports:
   shiny,
   shinydashboard,
   plotly,
-  magrittr
+  magrittr,
+  padr,
+  tidyr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
