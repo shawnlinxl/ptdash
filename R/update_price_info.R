@@ -81,7 +81,7 @@ update_price_info <- function(dir_log_file = NULL) {
           write.csv(price_data, dir_price_file, row.names = FALSE)
         }
       }
-    }, error = function(e) {cat(ticker, "is not available from Quandl!\n",
+    }, error = function(e) {cat("\n", ticker, "is not available from Quandl!\n",
                                 "Download for period ",
                                 strftime(start_date, "%Y-%m-%d"),
                                 "to",
