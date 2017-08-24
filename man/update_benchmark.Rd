@@ -4,10 +4,10 @@
 \alias{update_benchmark}
 \title{Get benchmark prcie data}
 \usage{
-update_benchmark(ticker = "_SPXT")
+update_benchmark(ticker = "^SP500TR", save_name = "SPTR")
 }
 \arguments{
-\item{ticker}{benchmark ticker. Only tested for SPXT (SPTR)}
+\item{ticker}{benchmark ticker. Only tested for SPTR}
 }
 \description{
 Get benchmark prcie data

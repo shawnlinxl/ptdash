@@ -5,7 +5,7 @@
 \title{Use stock holdings and price data to find daily return on fund using
 only invested asset. Result is produced for indivisual tickers.}
 \usage{
-calc_return_series(return_level = c("ticker", "fund"), benchmark = "_SPXT")
+calc_return_series(return_level = c("ticker", "fund"), benchmark = "SPTR")
 }
 \arguments{
 \item{return_level}{\itemize{

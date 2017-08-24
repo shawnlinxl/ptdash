@@ -1,5 +1,5 @@
 calc_return_series <-
-  function(return_level = c("ticker", "fund"), benchmark = "_SPXT") {
+  function(return_level = c("ticker", "fund"), benchmark = "SPTR") {
   #' Use stock holdings and price data to find daily return on fund using
   #' only invested asset. Result is produced for indivisual tickers.
   #'
@@ -102,7 +102,7 @@ calc_return_series <-
         select(Date, Return) %>%
         mutate(Strategy = "Fund")
       price_data <-
-        read.csv(dir_price_file, colClasses = c("Date", rep("double", 5))) %>%
+        read.csv(dir_price_file, colClasses = c("Date", rep("double", 6))) %>%
         select(Date, Close) %>%
         mutate(Return = Close/lag(Close) - 1) %>%
         mutate(Return = ifelse(is.na(Return), 0, Return)) %>%

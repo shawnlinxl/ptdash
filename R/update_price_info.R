@@ -8,8 +8,6 @@ update_price_info <- function(dir_log_file = NULL) {
   #'   log file at default location.
   #'
   #' @import dplyr
-  #' @importFrom Quandl Quandl
-  #' @importFrom Quandl Quandl.api_key
   #'
   #' @export
 
@@ -37,7 +35,6 @@ update_price_info <- function(dir_log_file = NULL) {
     select(Date, Ticker) %>%
     unique()
 
-  Quandl.api_key(PKG_OPTIONS()$quandlapi)
   dir_price_data <- paste0(PKG_OPTIONS()$wd, "price_data/")
   for (stock in 1:nrow(price_get)) {
     ## File location of the price data for the ticker
@@ -50,15 +47,21 @@ update_price_info <- function(dir_log_file = NULL) {
         ## price information since position is initiated
         start_date <- price_get[stock,]$Date
         price_data <-
-          Quandl(paste0("WIKI/",ticker),
-                 start_date = start_date,
-                 end_date = Sys.Date())
-        names(price_data) <-
-          gsub(".", "", names(price_data), fixed = TRUE) %>%
-          gsub(" ", ".", .)
-        price_data <-
-          arrange(price_data, Date) %>%
-          select(Date, Open, High, Low, Close, Adj.Close, Volume)
+          quantmod::getSymbols(ticker, from = start_date,
+                               to = Sys.Date(), auto.assign = FALSE) %>%
+          data.frame %>%
+          mutate(., Date = rownames(.)) %>%
+          select(Date, everything()) %>%
+          setNames(c("Date", "Open", "High", "Low", "Close", "Volume", "Adj.Close"))
+          # Quandl(paste0("WIKI/",ticker),
+          #        start_date = start_date,
+          #        end_date = Sys.Date())
+        # names(price_data) <-
+        #   gsub(".", "", names(price_data), fixed = TRUE) %>%
+        #   gsub(" ", ".", .)
+        # price_data <-
+        #   arrange(price_data, Date) %>%
+        #   select(Date, Open, High, Low, Close, Adj.Close, Volume)
         write.csv(price_data, dir_price_file, row.names = FALSE)
 
       } else {
@@ -68,26 +71,22 @@ update_price_info <- function(dir_log_file = NULL) {
         if (start_date <= Sys.Date()){
           # update price data if is not up-to-date
           new_price_data <-
-            Quandl(paste0("WIKI/",ticker),
-                   start_date = start_date,
-                   end_date = Sys.Date())
-          names(new_price_data) <-
-            gsub(".", "", names(new_price_data), fixed = TRUE) %>%
-            gsub(" ", ".", .)
-          new_price_data <-
-            arrange(new_price_data, Date) %>%
-            select(Date, Open, High, Low, Close, Adj.Close, Volume)
+            quantmod::getSymbols(ticker, from = start_date,
+                                 to = Sys.Date(), auto.assign = FALSE) %>%
+            data.frame %>%
+            mutate(., Date = rownames(.)) %>%
+            select(Date, everything()) %>%
+            setNames(c("Date", "Open", "High", "Low", "Close", "Volume", "Adj.Close"))
           price_data <- rbind(price_data, new_price_data)
           write.csv(price_data, dir_price_file, row.names = FALSE)
         }
       }
-    }, error = function(e) {cat("\n", ticker, "is not available from Quandl!\n",
+    }, error = function(e) {cat("\n", ticker, "is not available from Quandmod!\n",
                                 "Download for period ",
                                 strftime(start_date, "%Y-%m-%d"),
                                 "to",
                                 strftime(Sys.Date(), "%Y-%m-%d"))})
 
   }
-
 
 }
